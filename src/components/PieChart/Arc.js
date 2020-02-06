@@ -57,7 +57,9 @@ class Arc extends React.Component {
   };
 
   render() {
-    const { format, arcData } = this.props;
+    const { arcData } = this.props;
+    const angle = arcData.endAngle - arcData.startAngle;
+    console.log(this.createArc.centroid(arcData))
     return (
       <g>
         <path
@@ -66,14 +68,17 @@ class Arc extends React.Component {
           ref="elem"
           onClick={this.handleClick}
         />
-        <text
-          transform={`translate(${this.createArc.centroid(arcData)})`}
-          textAnchor="middle"
-          fill="white"
-          fontSize="10"
-        >
-          {format(arcData.value)}
-        </text>
+        {angle > 0.5 ? (
+          <text
+            transform={`translate(${this.createArc.centroid(arcData)})`}
+            textAnchor="middle"
+            fill="white"
+            fontSize="12"
+          >
+            {`${d3.format(".0f")(arcData.value / 1000) }k`}
+          </text>
+        ) : (null)}
+        
       </g>
     );
   }
