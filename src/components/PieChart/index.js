@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import "./style.css";
 import * as d3 from "d3";
 import Arc from "./Arc";
-import randomDataGenerator from "./randomDataGenerator";
+import randomDataGenerator from "../../helpers/randomDataGenerator";
 import History from "./History";
+
 const App = ({
   innerRadius,
   outerRadius,
@@ -43,22 +44,21 @@ const App = ({
                   outerRadius={outerRadius}
                   cornerRadius={cornerRadius}
                   setData={setData}
+                  height={height}
+                  width={width}
                 />
               ))}
             </g>
           </svg>
         </div>
         <div className="historyBlock" style={{ height: height }}>
-          <div className="overflowGradient"></div>
-          <div className="overflowGradientB"></div> 
-            <svg width={width / 2} height={pieData.length * 24}>
-              <g transform={`translate(20 35)`}>
-                {pieData.map((d, i) => (
-                  <History key={i} index={i} data={d.data} />
-                ))}
-              </g>
-            </svg>
-          
+          <svg width={width / 2} height={pieData.length * 25 + 15}>
+            <g transform={`translate(20 35)`}>
+              {pieData.map((d, i) => (
+                <History key={i} index={i} data={d.data} />
+              ))}
+            </g>
+          </svg>  
         </div>
       </div>
       <button

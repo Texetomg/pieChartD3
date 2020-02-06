@@ -7,7 +7,7 @@ const App = () => {
       <PieChart
         width={400}
         height={200}
-        innerRadius={0}
+        innerRadius={50}
         outerRadius={100}
         cornerRadius={0}
         maxSectors={10}

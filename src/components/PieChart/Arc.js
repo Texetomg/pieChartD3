@@ -23,12 +23,20 @@ const arcTween = (oldData, newData, arc) => {
   };
 };
 
+
 class Arc extends React.Component {
   createArc = d3
     .arc()
     .innerRadius(this.props.innerRadius)
     .outerRadius(this.props.outerRadius)
     .cornerRadius(this.props.cornerRadius);
+
+  radius = Math.min(this.props.width, this.props.height)
+
+  createArcLabel = d3
+    .arc()
+    .innerRadius(this.radius / 2)
+    .outerRadius(this.radius / 4);
 
   componentDidUpdate(oldProps) {
     const { arcData } = this.props;
@@ -41,7 +49,7 @@ class Arc extends React.Component {
     }
   }
 
-  handleClick = () => {
+  onClick = () => {
     const { arcData, pieData, setData } = this.props;
 
     if (arcData.data.children) {
@@ -56,6 +64,11 @@ class Arc extends React.Component {
     }
   };
 
+  onOver = () => {
+    d3.select(this.refs.elem)
+      .append("text")
+  }
+
   render() {
     const { arcData } = this.props;
     const angle = arcData.endAngle - arcData.startAngle;
@@ -66,11 +79,12 @@ class Arc extends React.Component {
           d={this.createArc(arcData)}
           fill={arcData.data.color}
           ref="elem"
-          onClick={this.handleClick}
+          onClick={this.onClick}
+          onMouseOver={this.onOver}
         />
-        {angle > 0.5 ? (
+        {angle > 0.4 ? (
           <text
-            transform={`translate(${this.createArc.centroid(arcData)})`}
+            transform={`translate(${this.createArcLabel.centroid(arcData)})`}
             textAnchor="middle"
             fill="white"
             fontSize="12"
