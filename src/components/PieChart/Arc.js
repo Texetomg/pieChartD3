@@ -1,6 +1,7 @@
 import React from "react";
 import "./style.css";
 import * as d3 from "d3";
+import {event as events} from 'd3-selection';
 
 const arcTween = (oldData, newData, arc) => {
   const copy = { ...oldData };
@@ -64,15 +65,26 @@ class Arc extends React.Component {
     }
   };
 
-  onOver = () => {
-    d3.select(this.refs.elem)
-      .append("text")
+  onOver = (e) => {
+    d3.select(".tooltip")
+    .style("visibility", "visible")
+    .text(`${this.props.arcData.data.value}`)
+  }
+
+  onLeave = () => {
+    d3.select(".tooltip")
+    .style("visibility", "hidden")
+  }
+
+  onMove = (e) => {
+    d3.select(".tooltip")
+    .style("top", `${e.pageY + 20}px`)
+    .style("left", `${e.pageX}px`)
   }
 
   render() {
     const { arcData } = this.props;
     const angle = arcData.endAngle - arcData.startAngle;
-    console.log(this.createArc.centroid(arcData))
     return (
       <g>
         <path
@@ -81,6 +93,8 @@ class Arc extends React.Component {
           ref="elem"
           onClick={this.onClick}
           onMouseOver={this.onOver}
+          onMouseLeave={this.onLeave}
+          onMouseMove={e =>this.onMove(e)}
         />
         {angle > 0.4 ? (
           <text
@@ -91,8 +105,8 @@ class Arc extends React.Component {
           >
             {`${d3.format(".0f")(arcData.value / 1000) }k`}
           </text>
-        ) : (null)}
-        
+          
+        ) : (null)} 
       </g>
     );
   }

@@ -19,6 +19,7 @@ const App = ({
     .sort(null);
 
   const colors = d3.scaleOrdinal(d3.schemeCategory10);
+/*   const [tooltip, setTooltip] = useState("tooltip") */
   const [data, setData] = useState({
     currentData: randomDataGenerator(colors, 1),
     oldData: null
@@ -46,6 +47,7 @@ const App = ({
                   setData={setData}
                   height={height}
                   width={width}
+                 /*  setTooltip={setTooltip} */
                 />
               ))}
             </g>
@@ -68,6 +70,7 @@ const App = ({
       >
         new data
       </button>
+      <div className="tooltip">{/* {tooltip} */}</div>
     </div>
   );
 };
