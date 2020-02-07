@@ -13,8 +13,9 @@ const History = ({ data, index }) => {
         fontSize="13"
       >
         <tspan fontWeight="bold">
-          {d3.format(".2f")(data.value)}
-        </tspan> some description
+          {`${d3.format(".2f")(data.value)} `}
+        </tspan>
+        {data.label}
       </text>
     </g>
   );

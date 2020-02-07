@@ -50,21 +50,22 @@ class Arc extends React.Component {
 
   onClick = () => {
     const { arcData, pieData, setData } = this.props;
-
-    if (arcData.data.children) {
+    console.log(pieData)
+    if (arcData.data.children !== undefined) {
       setData({
         currentData: arcData.data.children,
         oldData: pieData.currentData
       });
     } else {
       setData({
-        currentData: pieData.oldData
+        currentData: pieData.oldData || pieData.currentData
       });
     }
   };
 
   onOver = () => {
-    this.props.tooltipRef.current.textContent = `${this.props.arcData.data.value}`
+    this.props.tooltipRef.current.style.backgroundColor = this.props.arcData.data.color;
+    this.props.tooltipRef.current.textContent = `${this.props.arcData.data.value} ${this.props.arcData.data.label}`
     this.props.tooltipRef.current.style.visibility = 'visible'
   }
 
@@ -78,6 +79,7 @@ class Arc extends React.Component {
   }
 
   render() {
+   
     const { arcData } = this.props;
     const angle = arcData.endAngle - arcData.startAngle;
     return (
