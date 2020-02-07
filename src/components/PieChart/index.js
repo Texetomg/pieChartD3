@@ -3,7 +3,11 @@ import "./style.css";
 import * as d3 from "d3";
 import Arc from "./Arc";
 import randomDataGenerator from "../../helpers/randomDataGenerator";
-import History from "./History";
+import Legend from "./Legend";
+
+const Tooltip = React.forwardRef((prop, ref) => (
+  <div ref={ref} className="tooltip"/>
+))
 
 const App = ({
   innerRadius,
@@ -19,7 +23,6 @@ const App = ({
     .sort(null);
 
   const colors = d3.scaleOrdinal(d3.schemeCategory10);
-/*   const [tooltip, setTooltip] = useState("tooltip") */
   const [data, setData] = useState({
     currentData: randomDataGenerator(colors, 1),
     oldData: null
@@ -29,6 +32,8 @@ const App = ({
   useEffect(() => {
     setData({ currentData: randomDataGenerator(colors, maxSectors)});
   }, []);
+
+  const tooltipRef = React.createRef()
 
   return (
     <div className="App">
@@ -47,7 +52,7 @@ const App = ({
                   setData={setData}
                   height={height}
                   width={width}
-                 /*  setTooltip={setTooltip} */
+                  tooltipRef={tooltipRef}
                 />
               ))}
             </g>
@@ -57,7 +62,7 @@ const App = ({
           <svg width={width / 2} height={pieData.length * 25 + 15}>
             <g transform={`translate(20 35)`}>
               {pieData.map((d, i) => (
-                <History key={i} index={i} data={d.data} />
+                <Legend key={i} index={i} data={d.data} />
               ))}
             </g>
           </svg>  
@@ -70,7 +75,8 @@ const App = ({
       >
         new data
       </button>
-      <div className="tooltip">{/* {tooltip} */}</div>
+      {/* <div className="tooltip"/> */}
+      <Tooltip ref={tooltipRef}/>
     </div>
   );
 };

@@ -1,7 +1,6 @@
 import React from "react";
 import "./style.css";
 import * as d3 from "d3";
-import {event as events} from 'd3-selection';
 
 const arcTween = (oldData, newData, arc) => {
   const copy = { ...oldData };
@@ -23,7 +22,6 @@ const arcTween = (oldData, newData, arc) => {
     };
   };
 };
-
 
 class Arc extends React.Component {
   createArc = d3
@@ -65,21 +63,18 @@ class Arc extends React.Component {
     }
   };
 
-  onOver = (e) => {
-    d3.select(".tooltip")
-    .style("visibility", "visible")
-    .text(`${this.props.arcData.data.value}`)
+  onOver = () => {
+    this.props.tooltipRef.current.textContent = `${this.props.arcData.data.value}`
+    this.props.tooltipRef.current.style.visibility = 'visible'
   }
 
   onLeave = () => {
-    d3.select(".tooltip")
-    .style("visibility", "hidden")
+    this.props.tooltipRef.current.style.visibility = 'hidden'
   }
 
   onMove = (e) => {
-    d3.select(".tooltip")
-    .style("top", `${e.pageY + 20}px`)
-    .style("left", `${e.pageX}px`)
+    this.props.tooltipRef.current.style.top = `${e.pageY + 20}px`
+    this.props.tooltipRef.current.style.left = `${e.pageX}px`
   }
 
   render() {
@@ -102,10 +97,14 @@ class Arc extends React.Component {
             textAnchor="middle"
             fill="white"
             fontSize="12"
+            fontWeight="bold"
           >
-            {`${d3.format(".0f")(arcData.value / 1000) }k`}
+            {arcData.value > 1000 ? (
+              `${d3.format(".0f")(arcData.value / 1000)}k`
+            ) : (
+              `${d3.format(".0f")(arcData.value)}`
+            )}
           </text>
-          
         ) : (null)} 
       </g>
     );

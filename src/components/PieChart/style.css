@@ -9,4 +9,9 @@
   position: absolute;
   top: 100px;
   visibility: hidden;
+  background-color: #36AC3A;
+  padding: 10px;
+  color: white;
+  border-radius: 25px;
+  font-size: 14px;
 }
