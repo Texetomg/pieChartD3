@@ -75,7 +75,6 @@ const App = ({
       >
         new data
       </button>
-      {/* <div className="tooltip"/> */}
       <Tooltip ref={tooltipRef}/>
     </div>
   );

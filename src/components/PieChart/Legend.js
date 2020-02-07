@@ -12,7 +12,9 @@ const History = ({ data, index }) => {
         transform={`translate(10 ${index * (20) + 4})`}
         fontSize="13"
       >
-        {`${d3.format(".2f")(data.value)} some description`}
+        <tspan fontWeight="bold">
+          {d3.format(".2f")(data.value)}
+        </tspan> some description
       </text>
     </g>
   );
